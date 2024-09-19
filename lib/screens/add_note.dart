@@ -53,6 +53,9 @@ class _AddNoteState extends State<AddNote> {
             isSending = true;
           });
         });
+        if (!mounted) {
+          return;
+        }
         FocusScope.of(context).unfocus();
         Navigator.of(context).push(
           MaterialPageRoute(
@@ -96,17 +99,23 @@ class _AddNoteState extends State<AddNote> {
             onTap: () {
               Navigator.pop(context);
             },
-            child: Container(
-              width: 40,
-              height: 40,
-              padding: EdgeInsets.zero,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: const Color.fromARGB(139, 21, 21, 21),
-              ),
-              child: const Icon(
-                Icons.arrow_back,
-                size: 18,
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Container(
+                    width: 40,
+                    height: 40,
+                    padding: EdgeInsets.zero,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: const Color.fromARGB(139, 21, 21, 21),
+                    ),
+                    child: const Icon(
+                      Icons.arrow_back,
+                      size: 18,
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
