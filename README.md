@@ -1,16 +1,31 @@
-# note_app
 
-A new Flutter project.
+<div  align='center'>
+  
+  ##  SIMPLE NOTE APP
 
-## Getting Started
+![badge-1](https://img.shields.io/badge/Dart-Flutter-blue)
+![badge-1](https://img.shields.io/badge/Languages-+2-yellow)
+![badge-1](https://img.shields.io/badge/Version-1.0.0-blue?logo=github&style=social)
 
-This project is a starting point for a Flutter application.
+</div>
 
-A few resources to get you started if this is your first Flutter project:
+<p align="center">
+  <a href="#page_with_curl-about">About</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#thought_balloon-inspiration">Inspiration</a>
+</p>
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## :page_with_curl: About
+<p align='center'> This repository contains a repo of the 1st version of my note app with Sqflite.</p>
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<div  align='center'>
+<image src='./1.jpg' alt='screenshot' width="150px"/> 
+ <image src='./2.jpg' alt='screenshot' width="150px"/>
+  <image src='./3.jpg' alt='screenshot' width="150px"/>
+    <image src='./4.jpg' alt='screenshot' width="150px"/>
+      </div>
+
+# :thought_balloon: Inspiration
+- Design inspired by [App design](https://www.youtube.com/watch?v=Aa7U4Nn1kmM&t) mabe by [Coder HQ](https://github.com/CoderrHQ).
+
+
+<p align='center'> Made with ❤️ by WKN 👋🏻 </p>
