@@ -1,8 +1,20 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:note_app/screens/homepage.dart';
 import 'package:provider/provider.dart';
 import 'package:note_app/providers/note_providers.dart';
 import 'package:note_app/models/note.dart';
+
+final random = Random();
+List<Color> colors = const [
+  Color(0XFFFAB090),
+  Color(0XFFF9CE7F),
+  Color(0XFF78D8E9),
+  Color(0XFFE5E9A4),
+  Color(0XFFFA9BAF),
+  Color(0XFFD09FDB),
+];
 
 class AddNote extends StatefulWidget {
   const AddNote({super.key, this.note});
@@ -15,8 +27,8 @@ class _AddNoteState extends State<AddNote> {
   final formKey = GlobalKey<FormState>();
   final TextEditingController titleController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
-
-  void save() {
+  bool isSending = false;
+  void save() async {
     bool isValid = formKey.currentState!.validate();
     if (isValid) {
       formKey.currentState!.save();
@@ -25,22 +37,26 @@ class _AddNoteState extends State<AddNote> {
           context.read<NoteProviders>().addNote(Note(
                 title: titleController.text,
                 description: descriptionController.text,
+                color: colors[random.nextInt(colors.length)],
                 date: DateTime.now(),
               ));
         } else {
-          context.read<NoteProviders>().updateNote(widget.note!.id,
+          context.read<NoteProviders>().updateNote(widget.note!.id!,
               titleController.text, descriptionController.text);
         }
+        setState(() {
+          isSending = true;
+        });
+
+        await Future.delayed(const Duration(seconds: 1), () {
+          setState(() {
+            isSending = true;
+          });
+        });
         FocusScope.of(context).unfocus();
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (ctx) => const HomePage(),
-          ),
-        );
-        ScaffoldMessenger.of(context).clearSnackBars();
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Success'),
           ),
         );
       } on Exception catch (e) {
@@ -159,11 +175,15 @@ class _AddNoteState extends State<AddNote> {
                     color: const Color.fromARGB(221, 59, 59, 59),
                     borderRadius: BorderRadius.circular(6),
                   ),
-                  child: const Center(
-                    child: Text(
-                      'Save',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
+                  child: Center(
+                    child: isSending
+                        ? const CircularProgressIndicator(
+                            color: Colors.teal,
+                          )
+                        : const Text(
+                            'Save',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
                   ),
                 ),
               ),

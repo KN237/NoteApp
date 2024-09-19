@@ -12,7 +12,34 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _animationController;
+  late Animation<double> _fadeAnimation;
+  @override
+  void initState() {
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 1),
+    );
+    _fadeAnimation = Tween<double>(begin: 0, end: 1).animate(
+      CurvedAnimation(
+        parent: _animationController,
+        curve: Curves.ease,
+      ),
+    );
+
+    _animationController.forward();
+    context.read<NoteProviders>().loadData();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,20 +49,30 @@ class _HomePageState extends State<HomePage> {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-        child: context.watch<NoteProviders>().lenght <= 0
+        child: context.watch<NoteProviders>().isLoading
             ? const Center(
-                child: Text('No Data'),
+                child: CircularProgressIndicator(
+                  color: Colors.teal,
+                ),
               )
-            : MasonryGridView.count(
-                crossAxisCount: 2,
-                mainAxisSpacing: 20,
-                crossAxisSpacing: 20,
-                itemCount: context.watch<NoteProviders>().lenght,
-                itemBuilder: (ctx, index) {
-                  return NoteItem(
-                      note: context.watch<NoteProviders>().noteList[index]);
-                },
-              ),
+            : context.watch<NoteProviders>().lenght <= 0
+                ? const Center(
+                    child: Text('No Data'),
+                  )
+                : MasonryGridView.count(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 20,
+                    crossAxisSpacing: 20,
+                    itemCount: context.watch<NoteProviders>().lenght,
+                    itemBuilder: (ctx, index) {
+                      return FadeTransition(
+                        opacity: _fadeAnimation,
+                        child: NoteItem(
+                            note:
+                                context.watch<NoteProviders>().noteList[index]),
+                      );
+                    },
+                  ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
